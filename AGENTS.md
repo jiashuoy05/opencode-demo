@@ -5,6 +5,8 @@ This document provides guidelines for agents working on the opencode-demo reposi
 ## Build, Test, and Lint Commands
 
 ### Compilation
+
+#### Linked List
 ```bash
 # Compile the linked list implementation
 gcc -Wall -Wextra -std=c99 -o linked_list linked_list.c
@@ -14,6 +16,24 @@ gcc -Wall -Wextra -std=c99 -g -o linked_list linked_list.c
 
 # Compile with all warnings and treat warnings as errors
 gcc -Wall -Wextra -Werror -std=c99 -o linked_list linked_list.c
+```
+
+#### Queue
+```bash
+# Compile the queue implementation
+gcc -Wall -Wextra -std=c99 -o queue queue.c
+
+# Compile with all warnings and treat warnings as errors
+gcc -Wall -Wextra -Werror -std=c99 -o queue queue.c
+```
+
+#### Stack
+```bash
+# Compile the stack implementation
+gcc -Wall -Wextra -std=c99 -o stack stack.c
+
+# Compile with all warnings and treat warnings as errors
+gcc -Wall -Wextra -Werror -std=c99 -o stack stack.c
 ```
 
 ### Running
@@ -27,14 +47,22 @@ valgrind --leak-check=full --show-leak-kinds=all ./linked_list
 
 ### Linting & Static Analysis
 ```bash
-# Check for common issues with cppcheck
+# Check for common issues with cppcheck (for all C files)
 cppcheck --enable=all linked_list.c
+cppcheck --enable=all queue.c
+cppcheck --enable=all stack.c
 
 # Use clang static analyzer
 clang --analyze linked_list.c
+clang --analyze queue.c
+clang --analyze stack.c
 ```
 
 ### Testing
+
+The project includes three core data structures, each with comprehensive test cases in main():
+
+#### Linked List Tests
 Currently, there are no automated tests. The main() function contains manual test cases that verify:
 - Insertion at beginning
 - Insertion at end
@@ -42,11 +70,39 @@ Currently, there are no automated tests. The main() function contains manual tes
 - Deletion from empty list
 - Handling of non-existent nodes
 
-When adding tests, follow this structure:
+#### Queue Tests
+The queue implementation includes 7 comprehensive test cases:
+- Enqueue multiple elements
+- Peek at front element
+- Dequeue all elements
+- Check isEmpty on empty queue
+- Attempt dequeue from empty queue
+- Enqueue after emptying
+- Multiple sequential enqueue/dequeue operations
+
+#### Stack Tests
+The stack implementation includes 7 comprehensive test cases:
+- Push multiple elements
+- Peek at top element
+- Pop all elements
+- Check isEmpty on empty stack
+- Attempt pop from empty stack
+- Push after emptying
+- Multiple sequential push/pop operations
+
+#### Running Tests
 ```bash
-# Compile and run with test output
-gcc -Wall -Wextra -std=c99 -o linked_list_test linked_list.c
-./linked_list_test
+# Compile and run linked list tests
+gcc -Wall -Wextra -std=c99 -o linked_list linked_list.c
+./linked_list
+
+# Compile and run queue tests
+gcc -Wall -Wextra -std=c99 -o queue queue.c
+./queue
+
+# Compile and run stack tests
+gcc -Wall -Wextra -std=c99 -o stack stack.c
+./stack
 ```
 
 ## Code Style Guidelines
@@ -133,11 +189,15 @@ gcc -Wall -Wextra -std=c99 -o linked_list_test linked_list.c
 - **Display**: Check for NULL/empty case first, use loop with NULL check
 
 ### Specific to This Project
-- Focus on linked list operations: create, insert (beginning/end), delete, display
+- Focus on fundamental data structures: linked list, queue, and stack
 - Maintain singly-linked list structure (Node with data and next pointer)
-- Support integer data type for nodes
+- Queue implementation with front/rear pointers for O(1) enqueue/dequeue
+- Stack implementation with top pointer for O(1) push/pop operations
+- Support integer data type for node values
 - Ensure no memory leaks in all operations
-- Include comprehensive main() with test cases demonstrating all operations
+- Include comprehensive main() with 7 test cases per data structure
+- Provide proper documentation headers for each function (purpose, parameters, return value)
+- Include destroy/cleanup functions to free all allocated memory
 
 ## Additional Guidelines
 
